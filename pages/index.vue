@@ -23,7 +23,7 @@ const vibrating = ref(false);
 
 const vibrateDevice = () => {
   if (isSupported.value) {
-    vibrating = !vibrating;
+    vibrating.value = !vibrating.value;
     vibrating ? vibrate() : stop();
   }
 }
