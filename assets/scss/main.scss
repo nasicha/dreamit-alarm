@@ -1,3 +1,17 @@
+@font-face {
+  font-family: "Paloseco-Light";
+  src: local("Paloseco-Light"),
+   url(../fonts/Paloseco-Light.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Paloseco-Medium";
+  src: local("Paloseco-Medium"),
+   url(../fonts/Paloseco-Medium.ttf) format("truetype");
+}
+
 body {
   margin: 0;
+  font-family: Paloseco-Medium, sans-serif;
+  font-style: normal;
 }
