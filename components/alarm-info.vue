@@ -1,16 +1,29 @@
 <template>
-  <div class="mid">
+  <div class="mid" v-if="showAlarm" >
       <img src="~assets/img/WordAlarm.png" class="word" />
     <div class="mid-alarm">
       <img src="~assets/img/GLOW.png" class="glow" />
       <img src="~assets/img/clock-alarm.png" class="clock" />
 
     </div>
-    <DeactivateAlarm />
+    <DeactivateAlarm @click="toggleAlarm" />
+  </div>
+  <div v-if="!showAlarm">
+    <video src="~assets/video/gutenMorgen.webm" autoplay muted type="video/webm">
+        <p>Your browser does not support the video tag.</p>
+    </video>
   </div>
 </template>
 <script setup lang="ts">
 import DeactivateAlarm from "@/assets/img/deactivate-alarm.svg?component";
+
+
+const showAlarm = ref(true);
+
+const toggleAlarm = () => {
+  showAlarm.value = !showAlarm.value;
+}
+
 </script>
 <style lang="scss">
 
@@ -68,4 +81,13 @@ import DeactivateAlarm from "@/assets/img/deactivate-alarm.svg?component";
 	}
 }
 
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>

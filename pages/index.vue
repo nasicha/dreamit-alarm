@@ -1,61 +1,58 @@
 <template>
-  <div class="page">
-    <Background />
-    <div class="top">
-      <SmartphoneTopbar />
+  <Transition name="fade">
+    <div v-if="!hideOverlay" class="overlay">
+      <div class="overlay-wrapper" v-if="!hideOverlayWrapper" min="8">
+        <span>Set timer:</span>
+        <input v-model="timer" type="number" />
+        <span>{{ timer }}</span>
+        <button @click="startCountdown">Start</button>
+      </div>
     </div>
-    <AlarmInfo />
-    <div class="bottom">
-    </div>
-  </div>
+  </Transition>
+  <Transition name="fade">
+    <AlarmPage />
+  </Transition>
 </template>
+<script setup lang="ts">
 
-<script setup>
-import SmartphoneTopbar from "@/assets/img/smartphone-topbar.svg?component";
-import { useVibrate } from '@vueuse/core'
 
-const { vibrate, stop, isSupported } = useVibrate({ pattern: [300, 100, 300] })
+const timer = ref(10);
+const hideOverlay = ref(false);
+const hideOverlayWrapper = ref(false);
 
-const vibrating = ref(false);
+const startCountdown = () => {
+  const countdownInterval = setInterval(() => {
+    if (timer.value > 0) {
+      timer.value--;
+    } else {
+      clearInterval(countdownInterval);
+    }
+  }, 1000);
+}
 
-const vibrateDevice = () => {
-  if (isSupported.value) {
-    vibrating.value = !vibrating.value;
-    vibrating ? vibrate() : stop();
+watch(timer, (value) => {
+  if (value === 0) {
+    hideOverlay.value = true;
   }
-}
-const vibrateNow = () => {
-  window.navigator.vibrate([200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,])
-}
-
-useHead({
-  title: 'DreamIt - Alarm',
+  if(value === 5) {
+    hideOverlayWrapper.value = true;
+  }
 })
 </script>
 <style lang="scss">
-.page {
-  position: relative;
-  width: 100vw;
+.overlay {
+  position: absolute;
   height: 100vh;
-  overflow: hidden;
-}
+  width: 100vw;
+  background-color: black;
+  z-index: 100;
+  color: white;
 
-.top {
-  height: 5vh;
+  &-wrapper {
+
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
-
-  svg {
-    padding: 1rem;
+  flex-direction: column;
+  padding: 2rem;
   }
-}
-
-.bottom {
-  height: 12vh;
-}
-
-.word {
-  letter-spacing: 0.5px;
 }
 </style>
