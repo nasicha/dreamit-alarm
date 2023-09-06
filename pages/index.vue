@@ -4,16 +4,13 @@
     <div class="top">
       <SmartphoneTopbar />
     </div>
-    <div class="mid">
-      <DeactivateAlarm @click="vibrateDevice()" />
-    </div>
+    <AlarmInfo />
     <div class="bottom">
     </div>
   </div>
 </template>
 
 <script setup>
-import DeactivateAlarm from "@/assets/img/deactivate-alarm.svg?component";
 import SmartphoneTopbar from "@/assets/img/smartphone-topbar.svg?component";
 import { useVibrate } from '@vueuse/core'
 
@@ -27,7 +24,9 @@ const vibrateDevice = () => {
     vibrating ? vibrate() : stop();
   }
 }
-
+const vibrateNow = () => {
+  window.navigator.vibrate([200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,])
+}
 
 useHead({
   title: 'DreamIt - Alarm',
@@ -52,19 +51,11 @@ useHead({
   }
 }
 
-.mid {
-  height: 83vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-
-  &-top {
-    height: 70vh;
-  }
-}
-
 .bottom {
   height: 12vh;
+}
+
+.word {
+  letter-spacing: 0.5px;
 }
 </style>
