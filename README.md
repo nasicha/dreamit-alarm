@@ -1,2 +1,2 @@
 # dreamit-alarm
-Interactive Website for the short film "DreamIt"
+Interactive Website for a scene in the short film "DreamIt".
