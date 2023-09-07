@@ -6,16 +6,20 @@
           <p>Dauer:</p>
           <input v-model="timer" type="number" />
         </div>
-        <p>Alarm startet in <span>{{ timer }} Sekunden.</span></p>
+        <p>
+          Alarm startet in <span>{{ timer }} Sekunden.</span>
+        </p>
         <div>
           <p>Fade out:</p>
           <input v-model="hideTimerAfterSec" type="number" />
         </div>
-        <p>Text verschwindet bei <span>{{ hideTimerAfterSec }} Sekunden.</span></p>
+        <p>
+          Text verschwindet bei <span>{{ hideTimerAfterSec }} Sekunden.</span>
+        </p>
         <button @click="startCountdown">Start</button>
       </div>
       <div class="overlay-wrapper bigTime" v-if="!hideOverlayWrapper && countdownStarted">
-      <h1>{{ timer }}</h1>
+        <h1>{{ timer }}</h1>
       </div>
     </div>
   </Transition>
@@ -39,18 +43,32 @@ const startCountdown = () => {
       clearInterval(countdownInterval);
     }
   }, 1000);
-}
+};
 
 watch(timer, (value) => {
   if (value === 0) {
     hideOverlay.value = true;
   }
-  if(value === hideTimerAfterSec.value) {
+  if (value === hideTimerAfterSec.value) {
     hideOverlayWrapper.value = true;
   }
-})
+});
+
+useHead({
+  title: "DreamIt - Alarm",
+  link: [
+    {
+      rel: "preload",
+      as: "video",
+      href: "../assets/video/gutenMorgen.webm",
+      type: "video/webm",
+    },
+  ],
+});
 </script>
 <style lang="scss">
+@use '../assets/scss/transition.scss';
+
 .overlay {
   position: absolute;
   height: 100vh;
@@ -85,6 +103,7 @@ watch(timer, (value) => {
       background-color: black;
       color: white;
       border-color: white;
+      margin-top: auto;
     }
   }
 }
