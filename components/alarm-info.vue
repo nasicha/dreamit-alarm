@@ -27,24 +27,27 @@ import { useSwipe } from "@vueuse/core";
 import gsap from "gsap";
 
 const showAlarm = ref(true);
+const duration = ref(0.3);
 
 const toggleAlarm = () => {
-  showAlarm.value = !showAlarm.value;
+  setTimeout(() => {
+    showAlarm.value = !showAlarm.value;
+  }, duration.value * 1000);
 };
 
 const deactivateAlarm = ref(null);
+const swiped = ref(false);
+
 const { direction } = useSwipe(deactivateAlarm, {
-  // your ref element
   onSwipe() {
-    if (direction.value === "up") {
+    if (direction.value === "up" && !swiped.value) {
+      swiped.value = true;
       gsap.to("#deactivateAlarmBtn", {
-        duration: 0.55,
+        duration: duration.value,
         y: -100,
       });
 
-      setTimeout(() => {
-        toggleAlarm();
-      }, 500);
+      toggleAlarm();
     }
   },
 });
