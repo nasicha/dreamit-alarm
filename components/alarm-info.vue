@@ -6,7 +6,9 @@
       <img src="~assets/img/clock-alarm.png" class="clock" />
 
     </div>
-    <DeactivateAlarm @click="toggleAlarm" />
+    <div ref="deactivateAlarm">
+      <DeactivateAlarm id="deactivateAlarmBtn" />
+    </div>
   </div>
   <div v-if="!showAlarm">
     <video src="~assets/video/gutenMorgen.webm" autoplay muted type="video/webm">
@@ -16,6 +18,8 @@
 </template>
 <script setup lang="ts">
 import DeactivateAlarm from "@/assets/img/deactivate-alarm.svg?component";
+import { useSwipe } from '@vueuse/core'
+import gsap from 'gsap'
 
 
 const showAlarm = ref(true);
@@ -23,6 +27,27 @@ const showAlarm = ref(true);
 const toggleAlarm = () => {
   showAlarm.value = !showAlarm.value;
 }
+
+const deactivateAlarm = ref(null)
+const { direction } = useSwipe(
+  deactivateAlarm, { // your ref element 
+        onSwipe() {
+          if(direction.value === 'up') {
+
+            gsap.to("#deactivateAlarmBtn", {
+              duration: .55,
+              y: -100,
+            });
+            
+            setTimeout(() => {
+              toggleAlarm()
+            }, 500);
+          }
+        },
+    }
+)
+
+
 
 </script>
 <style lang="scss">
