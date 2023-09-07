@@ -23,13 +23,13 @@
       </div>
     </div>
   </Transition>
-  <Transition name="fade">
+  <Transition name="fade-grow">
     <AlarmPage />
   </Transition>
 </template>
 <script setup lang="ts">
-const timer = ref(10);
-const hideTimerAfterSec = ref(5);
+const timer = ref(7);
+const hideTimerAfterSec = ref(3);
 const countdownStarted = ref(false);
 const hideOverlay = ref(false);
 const hideOverlayWrapper = ref(false);
