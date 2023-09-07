@@ -3,20 +3,19 @@
     <Background />
     <div class="top">
       <SmartphoneTopbar />
-    </div>  
+    </div>
     <Transition name="fade">
       <AlarmInfo />
     </Transition>
-    <div class="bottom">
-    </div>
+    <div class="bottom"></div>
   </div>
 </template>
 
 <script setup>
 import SmartphoneTopbar from "@/assets/img/smartphone-topbar.svg?component";
-import { useVibrate } from '@vueuse/core'
+import { useVibrate } from "@vueuse/core";
 
-const { vibrate, stop, isSupported } = useVibrate({ pattern: [300, 100, 300] })
+const { vibrate, stop, isSupported } = useVibrate({ pattern: [300, 100, 300] });
 
 const vibrating = ref(false);
 
@@ -25,16 +24,45 @@ const vibrateDevice = () => {
     vibrating.value = !vibrating.value;
     vibrating ? vibrate() : stop();
   }
-}
+};
 const vibrateNow = () => {
-  window.navigator.vibrate([200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,])
-}
-
-useHead({
-  title: 'DreamIt - Alarm',
-})
+  window.navigator.vibrate([
+    200,
+    100,
+    200,
+    200,
+    100,
+    200,
+    200,
+    100,
+    200,
+    200,
+    100,
+    200,
+    200,
+    100,
+    200,
+    200,
+    100,
+    200,
+    200,
+    100,
+    200,
+    200,
+    100,
+    200,
+    200,
+    100,
+    200,
+    200,
+    100,
+    200,
+  ]);
+};
 </script>
 <style lang="scss">
+@use '../assets/scss/transition.scss';
+
 .page {
   position: relative;
   width: 100vw;
@@ -47,6 +75,8 @@ useHead({
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  z-index: 20;
+  position: relative;
 
   svg {
     padding: 1rem;
@@ -60,6 +90,4 @@ useHead({
 .word {
   letter-spacing: 0.5px;
 }
-
-
 </style>
