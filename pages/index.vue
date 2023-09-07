@@ -1,61 +1,91 @@
 <template>
-  <div class="page">
-    <Background />
-    <div class="top">
-      <SmartphoneTopbar />
+  <Transition name="fade">
+    <div v-if="!hideOverlay" class="overlay">
+      <div class="overlay-wrapper" v-if="!hideOverlayWrapper && !countdownStarted">
+        <div>
+          <p>Dauer:</p>
+          <input v-model="timer" type="number" />
+        </div>
+        <p>Alarm startet in <span>{{ timer }} Sekunden.</span></p>
+        <div>
+          <p>Fade out:</p>
+          <input v-model="hideTimerAfterSec" type="number" />
+        </div>
+        <p>Text verschwindet bei <span>{{ hideTimerAfterSec }} Sekunden.</span></p>
+        <button @click="startCountdown">Start</button>
+      </div>
+      <div class="overlay-wrapper bigTime" v-if="!hideOverlayWrapper && countdownStarted">
+      <h1>{{ timer }}</h1>
+      </div>
     </div>
-    <AlarmInfo />
-    <div class="bottom">
-    </div>
-  </div>
+  </Transition>
+  <Transition name="fade">
+    <AlarmPage />
+  </Transition>
 </template>
+<script setup lang="ts">
+const timer = ref(10);
+const hideTimerAfterSec = ref(5);
+const countdownStarted = ref(false);
+const hideOverlay = ref(false);
+const hideOverlayWrapper = ref(false);
 
-<script setup>
-import SmartphoneTopbar from "@/assets/img/smartphone-topbar.svg?component";
-import { useVibrate } from '@vueuse/core'
+const startCountdown = () => {
+  countdownStarted.value = true;
+  const countdownInterval = setInterval(() => {
+    if (timer.value > 0) {
+      timer.value--;
+    } else {
+      clearInterval(countdownInterval);
+    }
+  }, 1000);
+}
 
-const { vibrate, stop, isSupported } = useVibrate({ pattern: [300, 100, 300] })
-
-const vibrating = ref(false);
-
-const vibrateDevice = () => {
-  if (isSupported.value) {
-    vibrating.value = !vibrating.value;
-    vibrating ? vibrate() : stop();
+watch(timer, (value) => {
+  if (value === 0) {
+    hideOverlay.value = true;
   }
-}
-const vibrateNow = () => {
-  window.navigator.vibrate([200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,200, 100, 200,])
-}
-
-useHead({
-  title: 'DreamIt - Alarm',
+  if(value === hideTimerAfterSec.value) {
+    hideOverlayWrapper.value = true;
+  }
 })
 </script>
 <style lang="scss">
-.page {
-  position: relative;
-  width: 100vw;
+.overlay {
+  position: absolute;
   height: 100vh;
-  overflow: hidden;
-}
+  width: 100vw;
+  background-color: black;
+  z-index: 100;
+  color: white;
 
-.top {
-  height: 5vh;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  &-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    height: 80vh;
 
-  svg {
-    padding: 1rem;
+    &.bigTime {
+      justify-content: center;
+      align-items: center;
+      & h1 {
+        font-size: 5rem;
+      }
+    }
+
+    & div {
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      gap: 1rem;
+    }
+
+    & button {
+      height: 50px;
+      background-color: black;
+      color: white;
+      border-color: white;
+    }
   }
-}
-
-.bottom {
-  height: 12vh;
-}
-
-.word {
-  letter-spacing: 0.5px;
 }
 </style>
