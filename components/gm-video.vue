@@ -8,15 +8,19 @@
 const video = ref(null);
 onMounted(() => {
   if (video.value) {
-    console.log(typeof video.value);
     video.value.play();
   }
 });
 </script>
 <style lang="scss">
 .morning-video {
-  max-width: 100%;
-  margin-top: -5vh;
+  position: absolute;
+  height: 100%;
+  top: 0;
   z-index: 15;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>
