@@ -9,17 +9,11 @@
       <DeactivateAlarm id="deactivateAlarmBtn" />
     </div>
   </div>
-  <div v-if="!showAlarm">
-    <video
-      src="~assets/video/gutenMorgen.webm"
-      class="morning-video"
-      autoplay
-      muted
-      type="video/webm"
-    >
-      <p>Your browser does not support the video tag.</p>
-    </video>
-  </div>
+  <Transition name="fade-long">
+    <div v-if="!showAlarm">
+      <GmVideo />
+    </div>
+  </Transition>
 </template>
 <script setup lang="ts">
 import DeactivateAlarm from "@/assets/img/deactivate-alarm.svg?component";
@@ -89,25 +83,5 @@ const { direction } = useSwipe(deactivateAlarm, {
 
 .word {
   max-width: 80px;
-}
-
-.morning-video {
-  max-width: 100%;
-  margin-top: -5vh;
-  z-index: 15;
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(0.9);
-  }
-
-  50% {
-    transform: scale(1);
-  }
-
-  100% {
-    transform: scale(0.9);
-  }
 }
 </style>

@@ -1,7 +1,7 @@
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: all 0.5s ease;
+  transition: all 0.4s ease-in-out;
 }
 
 .fade-enter-from,
@@ -17,5 +17,29 @@
 .fade-grow-enter-from,
 .fade-grow-leave-to {
   opacity: 0;
-  transform: scale(0.7);
+  transform: scale(0.6);
+}
+
+.fade-long-enter-active,
+.fade-long-leave-active {
+  transition: all 1.5s ease-in-out;
+}
+
+.fade-long-enter-from,
+.fade-long-leave-to {
+  opacity: 0;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.9);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(0.9);
+  }
 }
