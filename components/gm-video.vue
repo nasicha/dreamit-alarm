@@ -15,7 +15,9 @@ onMounted(() => {
 <style lang="scss">
 .morning-video {
   position: absolute;
+  width: 100%;
   height: 100%;
+  object-fit: cover;
   top: 0;
   z-index: 15;
   left: 0;
