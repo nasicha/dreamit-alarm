@@ -28,14 +28,35 @@
   </Transition>
 </template>
 <script setup lang="ts">
-const timer = ref(7);
-const hideTimerAfterSec = ref(3);
+const timer = ref(0);
+const hideTimerAfterSec = ref(0);
 const countdownStarted = ref(false);
 const hideOverlay = ref(false);
 const hideOverlayWrapper = ref(false);
 
+onMounted(() => {
+  if (process.client) {
+    const storedTimer = localStorage.getItem("timer");
+    if (storedTimer === null) {
+      timer.value = 5;
+      localStorage.setItem("timer", timer.value.toString());
+    } else {
+      timer.value = parseInt(storedTimer);
+    }
+    const storedHideTimer = localStorage.getItem("hideTimer");
+    if (storedHideTimer === null) {
+      hideTimerAfterSec.value = 3;
+      localStorage.setItem("hideTimer", hideTimerAfterSec.value.toString());
+    } else {
+      hideTimerAfterSec.value = parseInt(storedHideTimer);
+    }
+  }
+});
+
 const startCountdown = () => {
   countdownStarted.value = true;
+  localStorage.setItem("timer", timer.value.toString());
+  localStorage.setItem("hideTimer", hideTimerAfterSec.value.toString());
   const countdownInterval = setInterval(() => {
     if (timer.value > 0) {
       timer.value--;
@@ -60,8 +81,8 @@ useHead({
     {
       rel: "preload",
       as: "video",
-      href: "../assets/video/gutenMorgen.webm",
-      type: "video/webm",
+      href: "../assets/video/gutenMorgen.mp4",
+      type: "video/mp4",
     },
   ],
 });
