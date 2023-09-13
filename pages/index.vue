@@ -94,7 +94,7 @@ useHead({
   position: absolute;
   height: 100vh;
   width: 100vw;
-  background-color: black;
+  background-color: rgb(32, 34, 36);
   z-index: 100;
   color: white;
 
